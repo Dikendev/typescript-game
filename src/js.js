@@ -1,41 +1,36 @@
 const canvas = document.getElementById("asteroids");
 const context = canvas.getContext("2d")
+const x = 'x'
+const y = 'y'
+context.strokeStyle = '#00FF00';
+context.lineWidth = 0.25
 
-context.strokeStyle = 'lightgrey';
-context.fillStyle = 'dimgrey'
-context.lineWidth = 5
-context.rect(75, 50, canvas.width - 150, canvas.height - 100)
-context.stroke()
-context.fill()
+const coordinates = {
+  x: 'x',
+  y: 'y'
+}
 
-context.font = "34px Arial";
-context.strokeStyle = '#FF2222';
-context.fillStyle = '#FFAAAA'
-context.lineWidth = 0.75;
-context.textAlign = "center"
-const msg = "2D Drawing"
-context.fillText(msg, canvas.width / 2, 100)
-context.strokeText(msg, canvas.width / 2, 100)
+drawLines(coordinates.x)
+drawLines(coordinates.y)
 
-context.strokeStyle = '#FFFFFF';
-context.lineWidth = 2;
-context.beginPath()
-context.arc(200, 140, 20, 0, Math.PI * 2)
-context.moveTo(200, 160);
-context.lineTo(200, 220)
-context.moveTo(180, 300);
-context.lineTo(185, 260)
-context.lineTo(200, 220)
-context.lineTo(215, 260)
-context.lineTo(220, 300)
-context.moveTo(240, 130)
-context.lineTo(225, 170)
-context.lineTo(200, 170)
-context.lineTo(175, 180)
-context.lineTo(170, 220)
 context.stroke()
 
 
-
-
-context.stroke();
+function drawLines(param) {
+  switch (param) {
+    case 'x': {
+      for (let x = 0; x < canvas.width; x += 10) {
+        context.moveTo(x, 0);
+        context.lineTo(x, canvas.height);
+      }
+      break
+    }
+    case 'y': {
+      for (let y = 0; y < canvas.height; y += 10) {
+        context.moveTo(0, y);
+        context.lineTo(canvas.width, y);
+      }
+      break
+    }
+  }
+}
