@@ -7,11 +7,11 @@ class Painter {
 	canvas: HTMLCanvasElement;
 
 	constructor() {
-		console.log("Painter class initialized");
+		console.log("Painter class initialized 1111111");
 		this.canvas = document.getElementById("asteroids") as HTMLCanvasElement;
 	}
 
-	getContext() {
+	getContext(): CanvasRenderingContext2D | undefined {
 		if (!this.canvas) {
 			return;
 		}
@@ -26,12 +26,17 @@ class Painter {
 	}
 
 	draw_grid(
-		context: any,
 		minorStep: number = 10,
 		majorStep: number = minorStep * 5,
 		lineColor: string = "#00FF00",
 		fillColor: string = "#009900"
-	) {
+	): void {
+		const context = this.getContext();
+
+		if (!context) {
+			return;
+		}
+
 		context.save();
 		context.strokeStyle = lineColor;
 		context.fillStyle = fillColor;
@@ -41,9 +46,57 @@ class Painter {
 		this.drawLines(COORDINATES.y, context, minorStep, majorStep);
 
 		context.stroke();
+		context.restore();
+
+		this.firstDraw(context);
+		this.shapes(context);
 	}
 
-	lineAxisWidth(axis: number) {
+	firstDraw(context: CanvasRenderingContext2D) {
+		context.beginPath();
+		context.strokeStyle = "#FFF";
+		context.fillStyle = "#00FF00";
+		context.lineWidth = 2;
+		context.moveTo(50, 50);
+		context.lineTo(150, 250);
+		context.lineTo(250, 170);
+		context.lineTo(320, 280);
+
+		context.fillText("(50,50)", 30, 45);
+		context.fillText("(150,250)", 130, 260);
+		context.fillText("(150,250)", 130, 260);
+		context.fillText("(250,170)", 255, 175);
+		context.fillText("(320,280)", 325, 280);
+
+		context.closePath();
+		context.stroke();
+	}
+
+	shapes(context: CanvasRenderingContext2D) {
+		context.beginPath();
+		context.strokeStyle = "#FFFF00";
+		context.fillStyle = "#000000";
+
+		context.moveTo(50, 250);
+		context.lineTo(50, 350);
+		context.lineTo(150, 350);
+		context.closePath();
+
+		context.moveTo(230, 360);
+		context.lineTo(270, 360);
+		context.lineTo(270, 310);
+		context.closePath();
+
+		context.moveTo(250, 50);
+		context.lineTo(370, 50);
+		context.lineTo(370, 100);
+		context.closePath();
+
+		context.fill();
+		context.stroke();
+	}
+
+	lineAxisWidth(axis: number): number {
 		return axis % 50 == 0 ? 0.5 : 0.25;
 	}
 
@@ -52,11 +105,7 @@ class Painter {
 		context: CanvasRenderingContext2D,
 		minorStep: number,
 		major: number
-	) {
-		console.log("Drawing lines");
-		console.log("context", typeof context);
-		console.log("context", context);
-
+	): void {
 		const width = context.canvas.width;
 		const height = context.canvas.height;
 
@@ -70,9 +119,9 @@ class Painter {
 					context.fillStyle = "#009900";
 
 					if (x % major == 0) {
-						context.fillText(x, x, 10);
+						const text = x.toString();
+						context.fillText(text, x, 10);
 					}
-
 					context.stroke();
 				}
 				break;
@@ -86,9 +135,9 @@ class Painter {
 					context.fillStyle = "#009900";
 
 					if (y % major == 0) {
-						context.fillText(y, 0, y + 10);
+						const text = y.toString();
+						context.fillText(text, 0, y + 10);
 					}
-
 					context.stroke();
 				}
 				break;
@@ -98,4 +147,4 @@ class Painter {
 }
 
 const painter = new Painter();
-painter.draw_grid(painter.getContext());
+painter.draw_grid();
