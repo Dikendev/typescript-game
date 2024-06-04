@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "drawing.js",
   "scripts": {
+    "start": "live-server  --host=127.0.0.1 --port=5500  --open=src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
