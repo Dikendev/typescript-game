@@ -49,19 +49,18 @@ class Painter {
 		context.restore();
 
 		this.firstDraw(context);
+
 		this.shapes(context);
 	}
 
 	firstDraw(context: CanvasRenderingContext2D) {
 		context.beginPath();
-		context.strokeStyle = "#FFF";
-		context.fillStyle = "#00FF00";
-		context.lineWidth = 2;
-		context.moveTo(50, 50);
-		context.lineTo(150, 250);
-		context.lineTo(250, 170);
-		context.lineTo(320, 280);
+		this.setLineStyles(context, "#FFF", "#00FF00", 2);
 
+		context.moveTo(50, 50);
+		context.bezierCurveTo(0, 0, 80, 250, 150, 250);
+		context.bezierCurveTo(250, 250, 250, 250, 250, 170);
+		context.bezierCurveTo(250, 50, 400, 350, 320, 280);
 		context.fillText("(50,50)", 30, 45);
 		context.fillText("(150,250)", 130, 260);
 		context.fillText("(150,250)", 130, 260);
@@ -74,8 +73,7 @@ class Painter {
 
 	shapes(context: CanvasRenderingContext2D) {
 		context.beginPath();
-		context.strokeStyle = "#FFFF00";
-		context.fillStyle = "#000000";
+		this.setLineStyles(context, "#FFFF00", "#000000", 0);
 
 		context.moveTo(50, 250);
 		context.quadraticCurveTo(25, 300, 50, 350);
@@ -94,6 +92,17 @@ class Painter {
 
 		context.fill();
 		context.stroke();
+	}
+
+	setLineStyles(
+		context: CanvasRenderingContext2D,
+		strokeColor: string,
+		fillColor: string,
+		lineWidth: number
+	) {
+		context.strokeStyle = strokeColor;
+		context.fillStyle = fillColor;
+		context.lineWidth = lineWidth;
 	}
 
 	lineAxisWidth(axis: number): number {
