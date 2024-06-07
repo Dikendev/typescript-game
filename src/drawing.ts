@@ -3,110 +3,54 @@ const COORDINATES = {
 	y: "y",
 } as const;
 
-class Painter {
-	canvas: HTMLCanvasElement;
+export class Painter {
+	canvasContext: CanvasRenderingContext2D;
 
-	constructor() {
-		console.log("Painter class initialized 1111111");
-		this.canvas = document.getElementById("asteroids") as HTMLCanvasElement;
+	constructor(canvasElement: HTMLCanvasElement | null) {
+		if (!canvasElement) throw new Error("Canvas not found");
+
+		this.showName(canvasElement);
+
+		const context = this.getCanvasContext(canvasElement);
+
+		if (!context) throw new Error("Canvas not found");
+
+		this.canvasContext = context;
 	}
 
-	getContext(): CanvasRenderingContext2D | undefined {
-		if (!this.canvas) {
-			return;
-		}
+	showName(context: HTMLCanvasElement): void {
+		console.log(`Painter context name: ${context.id}`);
+	}
 
-		const context = this.canvas.getContext("2d");
-
-		if (!context) {
-			return;
-		}
-
+	getCanvasContext(
+		canvasElement: HTMLCanvasElement
+	): CanvasRenderingContext2D | undefined {
+		const context = canvasElement.getContext("2d");
+		if (!context) throw new Error("Canvas not found");
 		return context;
 	}
 
 	draw_grid(
+		canvasContext: CanvasRenderingContext2D,
 		minorStep: number = 10,
 		majorStep: number = minorStep * 5,
 		lineColor: string = "#00FF00",
 		fillColor: string = "#009900"
 	): void {
-		const context = this.getContext();
-
-		if (!context) {
+		if (!canvasContext) {
 			return;
 		}
 
-		context.save();
-		context.strokeStyle = lineColor;
-		context.fillStyle = fillColor;
-		context.lineWidth = 0.25;
+		canvasContext.save();
+		canvasContext.strokeStyle = lineColor;
+		canvasContext.fillStyle = fillColor;
+		canvasContext.lineWidth = 0.25;
 
-		this.drawLines(COORDINATES.x, context, minorStep, majorStep);
-		this.drawLines(COORDINATES.y, context, minorStep, majorStep);
+		this.drawLines(COORDINATES.x, canvasContext, minorStep, majorStep);
+		this.drawLines(COORDINATES.y, canvasContext, minorStep, majorStep);
 
-		context.stroke();
-		context.restore();
-
-		this.firstDraw(context);
-
-		this.shapes(context);
-	}
-
-	firstDraw(context: CanvasRenderingContext2D) {
-		context.beginPath();
-		this.setLineStyles(context, "#FFF", "#00FF00", 2);
-
-		context.moveTo(50, 50);
-		context.bezierCurveTo(0, 0, 80, 250, 150, 250);
-		context.bezierCurveTo(250, 250, 250, 250, 250, 170);
-		context.bezierCurveTo(250, 50, 400, 350, 320, 280);
-		context.fillText("(50,50)", 30, 45);
-		context.fillText("(150,250)", 130, 260);
-		context.fillText("(150,250)", 130, 260);
-		context.fillText("(250,170)", 255, 175);
-		context.fillText("(320,280)", 325, 280);
-
-		context.closePath();
-		context.stroke();
-	}
-
-	shapes(context: CanvasRenderingContext2D) {
-		context.beginPath();
-		this.setLineStyles(context, "#FFFF00", "#000000", 0);
-
-		context.moveTo(50, 250);
-		context.quadraticCurveTo(25, 300, 50, 350);
-		context.quadraticCurveTo(100, 375, 150, 350);
-		context.closePath();
-
-		context.moveTo(230, 360);
-		context.quadraticCurveTo(255, 340, 270, 360);
-		context.quadraticCurveTo(255, 340, 270, 310);
-		context.closePath();
-
-		context.moveTo(250, 50);
-		context.quadraticCurveTo(310, 60, 370, 50);
-		context.quadraticCurveTo(400, 75, 370, 100);
-		context.closePath();
-
-		context.fill();
-		context.stroke();
-	}
-
-	setLineStyles(
-		context: CanvasRenderingContext2D,
-		strokeColor: string,
-		fillColor: string,
-		lineWidth: number
-	) {
-		context.strokeStyle = strokeColor;
-		context.fillStyle = fillColor;
-		context.lineWidth = lineWidth;
-	}
-
-	lineAxisWidth(axis: number): number {
-		return axis % 50 == 0 ? 0.5 : 0.25;
+		canvasContext.stroke();
+		canvasContext.restore();
 	}
 
 	drawLines(
@@ -153,7 +97,8 @@ class Painter {
 			}
 		}
 	}
-}
 
-const painter = new Painter();
-painter.draw_grid();
+	lineAxisWidth(axis: number): number {
+		return axis % 50 == 0 ? 0.5 : 0.25;
+	}
+}
