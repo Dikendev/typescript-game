@@ -3,6 +3,11 @@ body {
 	font-family: sans-serif;
 }
 
+canvas-group {
+	display: flex;
+	justify-content: center;
+}
+
 canvas {
 	background-color: black;
 }
