@@ -9,7 +9,7 @@ The focus of this project is to use only typescript to learn more about how the 
 ## Running the app
 
 ```bash
-  run npx tsc --watch
+  npx tsc --watch
   npm start
 ```
 
