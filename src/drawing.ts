@@ -1,4 +1,4 @@
-const COORDINATES = {
+export const COORDINATES = {
 	x: "x",
 	y: "y",
 } as const;
@@ -37,9 +37,7 @@ export class Painter {
 		lineColor: string = "#00FF00",
 		fillColor: string = "#009900"
 	): void {
-		if (!canvasContext) {
-			return;
-		}
+		if (!canvasContext) return;
 
 		canvasContext.save();
 		canvasContext.strokeStyle = lineColor;

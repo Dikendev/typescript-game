@@ -1,15 +1,18 @@
-import { Painter } from "./drawing";
-import { firstShapes } from "./first-shapes";
+import { Painter } from "./drawing.js";
+import { Shapes } from "./shapes.js";
 
-const asteroidCanvas = document.getElementById(
-	"asteroids"
-) as HTMLCanvasElement;
+const asteroidCanvas = getContextById("asteroids");
+const pacManCanvas = getContextById("pac-man");
 
-const pacManCanvas = document.getElementById("pac-man") as HTMLCanvasElement;
+const asteroidPainter = new Painter(asteroidCanvas);
+asteroidPainter.draw_grid(asteroidPainter.canvasContext);
 
-const painter = new Painter(asteroidCanvas);
-painter.draw_grid(painter.canvasContext);
-firstShapes(painter.canvasContext);
+const shapes = new Shapes(asteroidPainter.canvasContext);
+shapes.firstShapes();
 
 const pacManPainter = new Painter(pacManCanvas);
 pacManPainter.draw_grid(pacManPainter.canvasContext);
+
+function getContextById(id: string): HTMLCanvasElement {
+	return document.getElementById(id) as HTMLCanvasElement;
+}
