@@ -1,3 +1,16 @@
-# Just Playing some game
+# Game development using Typescript
 
-WIP
+## Description
+
+I'm just learning new things about game development using TypeScript through some books I've found on the internet.
+
+## Running the app
+
+```bash
+  run npx tsc --watch
+  npm start
+```
+
+## License
+
+[MIT licensed](LICENSE).
