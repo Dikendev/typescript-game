@@ -1,4 +1,5 @@
 import { Painter } from "./drawing.js";
+import { PacManShapes } from "./pacman-shapes.js";
 import { Shapes } from "./shapes.js";
 
 const asteroidCanvas = getContextById("asteroids");
@@ -12,6 +13,10 @@ shapes.firstShapes();
 
 const pacManPainter = new Painter(pacManCanvas);
 pacManPainter.draw_grid(pacManPainter.canvasContext);
+
+const pacManShape = new PacManShapes(pacManPainter.canvasContext);
+
+pacManShape.drawPacMan();
 
 function getContextById(id: string): HTMLCanvasElement {
 	return document.getElementById(id) as HTMLCanvasElement;
